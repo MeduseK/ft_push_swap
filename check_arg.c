@@ -6,7 +6,7 @@
 /*   By: alsiavos <alsiavos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 13:25:41 by alsiavos          #+#    #+#             */
-/*   Updated: 2024/02/24 07:23:56 by alsiavos         ###   ########.fr       */
+/*   Updated: 2024/02/26 16:48:54 by alsiavos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	ft_double(char **argv)
 	int	i;
 	int	j;
 
-	i = 1;
+	i = 0;
 	while (argv[i])
 	{
 		j = i + 1;
@@ -79,7 +79,7 @@ int	arg_is_zero(char *av)
 	return (1);
 }
 
-void	split_arg(char **argv)
+char	split_arg(char **argv)
 {
 	int		i;
 	int		j;
@@ -99,6 +99,7 @@ void	split_arg(char **argv)
 		free(args);
 		i++;
 	}
+	return (argv);
 	test_valide();
 }
 
@@ -106,17 +107,22 @@ void	check_arg(char **argv)
 {
 	int	i;
 	int	n;
+	char **split = NULL;
 
+	
 	n = 0;
 	i = 1;
 	while (argv[i])
 	{
 		if(!ft_double(argv))
 			check_error();
-		split_arg(&argv[i]);
+		split = split_arg(&argv[i]);
 		if (!ft_number(argv[i]))
 			check_error();
+		if(!ft_double(split))
+			check_error();
 		n += arg_is_zero(argv[i]);
+		free(split);
 		i++;
 	}
 	if (n > 1)
