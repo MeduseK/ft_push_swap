@@ -6,7 +6,7 @@
 /*   By: alsiavos <alsiavos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 13:25:41 by alsiavos          #+#    #+#             */
-/*   Updated: 2024/02/26 16:48:54 by alsiavos         ###   ########.fr       */
+/*   Updated: 2024/03/27 13:44:35 by alsiavos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,25 +46,6 @@ int	ft_number(char *v)
 	return (1);
 }
 
-int	ft_double(char **argv)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	while (argv[i])
-	{
-		j = i + 1;
-		while (argv[j])
-		{
-			if (ft_atoi(argv[i]) == ft_atoi(argv[j]))
-				return (0);
-			j++;
-		}
-		i++;
-	}
-	return (1);
-}
 int	arg_is_zero(char *av)
 {
 	int	i;
@@ -79,7 +60,27 @@ int	arg_is_zero(char *av)
 	return (1);
 }
 
-char	split_arg(char **argv)
+int	ft_double(char **argv)
+{
+	int	i;
+	int	j;
+
+	i = 1;
+	// printf("in ft_double\n");
+	while (argv[i])
+	{
+		j = i + 1;
+		while (argv[j])
+		{
+			if (ft_atoi(argv[i]) == ft_atoi(argv[j]))
+				return (0);
+			j++;
+		}
+		i++;
+	}
+	return (1);
+}
+void	split_arg(char **argv)
 {
 	int		i;
 	int		j;
@@ -92,37 +93,51 @@ char	split_arg(char **argv)
 		j = 0;
 		while (args[j])
 		{
-			if (!ft_number(args[j]))
-				check_error();
+			// printf("argv [%s] \n", args[j]);
+			if (!ft_number(args[j]) || !ft_double(args))
+				{
+					printf("Erreur lettre\n");
+					check_error();
+				}
 			j++;
 		}
+		// printf("check split\n");
 		free(args);
 		i++;
 	}
-	return (argv);
 	test_valide();
 }
-
 void	check_arg(char **argv)
 {
 	int	i;
-	int	n;
-	char **split = NULL;
+	int n;
 
-	
 	n = 0;
 	i = 1;
 	while (argv[i])
 	{
-		if(!ft_double(argv))
+		if (!ft_double(argv))
 			check_error();
-		split = split_arg(&argv[i]);
+		printf("no doublon\n");
+		int	j = 0;
+		while (argv[j])
+		{
+			printf("1. split arg -> [%s]\n", argv[j]);
+			j++;
+		}
+		// split_arg(&argv[i]);
+		int	k = 0;
+		while (argv[k])
+		{
+			printf("2. split arg -> [%s]\n", argv[k]);
+			k++;
+		}
 		if (!ft_number(argv[i]))
+		{
 			check_error();
-		if(!ft_double(split))
-			check_error();
+		}
 		n += arg_is_zero(argv[i]);
-		free(split);
+		// printf("check 0\n");
 		i++;
 	}
 	if (n > 1)
